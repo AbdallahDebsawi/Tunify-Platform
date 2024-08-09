@@ -5,49 +5,48 @@ using Tunify_Platform.Repositories.Interfaces;
 
 namespace Tunify_Platform.Repositories.Services
 {
-    public class UserService : IUser
+    public class ArtistService : IArtist
     {
         private readonly TunifyDbContext _context;
 
-        public UserService(TunifyDbContext context)
+        public ArtistService(TunifyDbContext context)
         {
             //bridge-session
             _context = context;
         }
-        public async Task<User> CreateUser(User user)
+        public async Task<Artist> CreateArtist(Artist artist)
         {
-            //the DbSet that resposible of the Users
-            _context.Users.Add(user);
+            _context.Artists.Add(artist);
             await _context.SaveChangesAsync();
 
-            return user;
+            return artist;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteArtist(int id)
         {
-            var getUser = await GetUserById(id);
-            _context.Users.Remove(getUser);
+            var getArtist = await GetArtistById(id);
+            _context.Artists.Remove(getArtist);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<Artist>> GetAllArtists()
         {
-            var allUsers = await _context.Users.ToListAsync();
-            return allUsers;
+            var allArtists = await _context.Artists.ToListAsync();
+            return allArtists;
         }
 
-        public async Task<User> GetUserById(int userID)
+        public async Task<Artist> GetArtistById(int artistID)
         {
-            var user = await _context.Users.FindAsync(userID);
-            return user;
+            var artist = await _context.Artists.FindAsync(artistID);
+            return artist;
         }
 
-        public async Task<User> UpdateUser(int id, User user)
+        public async Task<Artist> UpdateArtist(int id, Artist artist)
         {
-            var existingUser = await _context.Users.FindAsync(id);
-            existingUser = user;
+            var existingArtist = await _context.Artists.FindAsync(id);
+            existingArtist = artist;
             await _context.SaveChangesAsync();
-            return user;
+            return artist;
 
         }
     }
