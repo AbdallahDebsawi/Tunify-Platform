@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Tunify_Platform.Data;
 using Tunify_Platform.Models;
 using Tunify_Platform.Repositories.Interfaces;
@@ -14,6 +15,8 @@ namespace Tunify_Platform.Repositories.Services
             //bridge-session
             _context = context;
         }
+
+        
         public async Task<Artist> CreateArtist(Artist artist)
         {
             _context.Artists.Add(artist);
@@ -41,6 +44,8 @@ namespace Tunify_Platform.Repositories.Services
             return artist;
         }
 
+        
+
         public async Task<Artist> UpdateArtist(int id, Artist artist)
         {
             var existingArtist = await _context.Artists.FindAsync(id);
@@ -49,5 +54,41 @@ namespace Tunify_Platform.Repositories.Services
             return artist;
 
         }
+        public async Task AddSongToArtist(int artistID, int songID)
+        {
+            // Check if the artist exists
+            var artist = GetArtistById(artistID);
+            if (artist == null)
+            {
+                throw new Exception("Artist not found");
+            }
+
+            // Check if the song exists
+            var song = await _context.Songs.FindAsync(songID);
+            if (song == null)
+            {
+                throw new Exception("Song not found");
+            }
+
+            // Associate the song with the artist
+            song.ArtistId = artistID;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+
+        }
+        public async Task<IEnumerable<Song>> GetSongsByArtistId(int artistID)
+        {
+          var artist= GetArtistById(artistID);
+            if(artist == null)
+            {
+                throw new Exception("Artist not found");
+            }
+            return await _context.Songs
+               .Where(s => s.ArtistId == artistID)
+               .ToListAsync();
+        }
+
     }
 }
