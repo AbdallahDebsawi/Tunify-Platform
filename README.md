@@ -28,7 +28,7 @@ The Repository Design Pattern is used to encapsulate the data access logic of th
 
 ## New Features: Navigation and Routing
 
-In this lab, we extended the Tunify Platform by implementing new navigation and routing functionalities to enhance user experience and streamline interaction with various components of the application.
+In lab 12, we extended the Tunify Platform by implementing new navigation and routing functionalities to enhance user experience and streamline interaction with various components of the application.
 
 ### Navigation and Routing
 
@@ -65,7 +65,37 @@ The following relationships have been implemented within the Tunify Platform:
   - The `Artist` entity includes a collection of `Songs`, which lists all songs produced by the artist.
   - The `Song` entity holds a reference to its associated `Artist`, allowing for seamless navigation between songs and their creators.
 
-## Repository Design Pattern
 
-- We have also introduced the Repository Design Pattern to manage data access. This pattern decouples the data access logic from the business logic, making the application more modular and easier to maintain.
+## New Feature: Swagger UI Integration
+
+In Lab 13, we enhanced the Tunify Platform by integrating Swagger UI. Swagger UI provides a visual interface for exploring and interacting with the API endpoints available in the Tunify Platform. This addition makes it easier for developers to understand, test, and debug the API.
+
+### Swagger UI Overview
+
+- **Swagger UI**: Swagger UI is an open-source tool that allows you to visualize and interact with your API's resources. It generates an interactive documentation page directly from your API's specifications. With Swagger UI, you can easily test API endpoints without needing to use external tools like Postman.
+
+### Accessing and Using Swagger UI
+
+1. **Accessing Swagger UI**:
+   - After running your Tunify Platform application, you can access Swagger UI by navigating to the following URL in your web browser:
+     ```
+     http://localhost:{port}/swagger
+     ```
+     Replace `{port}` with the actual port number your application is running on (e.g., `http://localhost:5000/swagger`).
+
+2. **Using Swagger UI**:
+   - **Explore Endpoints**: Once on the Swagger UI page, you'll see a list of available API endpoints grouped by their respective controllers. Each endpoint is displayed with its HTTP method (GET, POST, PUT, DELETE, etc.).
+   - **View Details**: Click on an endpoint to expand its details. You'll see information such as request parameters, response types, and possible HTTP status codes.
+   - **Test Endpoints**: You can interact with the API directly from the Swagger UI. For example, you can fill in the required parameters and click the "Try it out" button to send a request and view the response in real-time.
+   - **Authentication**: If your API requires authentication (e.g., JWT tokens), Swagger UI provides a way to input your token so that you can test authenticated endpoints seamlessly.
+
+3. **Configuration**:
+   - Swagger UI has been configured to automatically generate API documentation based on the attributes and comments in your code. If you need to customize the Swagger documentation or add descriptions to your endpoints, you can do so by modifying your controllers and models with XML comments and attributes.
+
+### Benefits of Swagger UI
+
+- **Ease of Use**: Swagger UI simplifies the process of testing and interacting with your API.
+- **Interactive Documentation**: Developers can quickly understand how the API works without needing to dive into the source code.
+- **Streamlined Testing**: Swagger UI allows for quick and efficient testing of API endpoints directly in the browser, reducing the need for external testing tools.
+
 
