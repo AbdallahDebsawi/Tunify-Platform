@@ -1,4 +1,5 @@
-﻿namespace Tunify_Platform.Models
+﻿
+namespace Tunify_Platform.Models
 {
     public class Song
     {
@@ -11,5 +12,10 @@
         public int Duration { get; set; }
         public string Genre { get; set; }
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
+
+        public static implicit operator Song(Song v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

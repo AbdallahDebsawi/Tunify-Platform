@@ -14,6 +14,8 @@ namespace Tunify_Platform.Repositories.Services
             //bridge-session
             _context = context;
         }
+
+       
         public async Task<Playlist> CreatePlaylist(Playlist playlist)
         {
             //the DbSet that resposible of the 
@@ -42,6 +44,8 @@ namespace Tunify_Platform.Repositories.Services
             return playlist;
         }
 
+        
+
         public async Task<Playlist> UpdatePlaylist(int id, Playlist playlist)
         {
             var existingPlaylist = await _context.Playlists.FindAsync(id);
@@ -49,6 +53,50 @@ namespace Tunify_Platform.Repositories.Services
             await _context.SaveChangesAsync();
             return playlist;
 
+        }
+        public async Task AddSongToPlaylist(int playlistID, int songID)
+        {
+            // Check if the artist exists
+            var playlist = GetPlaylistById(playlistID);
+            if (playlist == null)
+            {
+                throw new Exception("Playlist not found");
+            }
+
+            // Check if the song exists
+            var song = await _context.Songs.FindAsync(songID);
+            if (song == null)
+            {
+                throw new Exception("Song not found");
+            }
+
+            // Create a new PlaylistSongs entry to associate the song with the playlist
+            var playlistSong = new PlaylistSong
+            {
+                PlaylistId = playlistID,
+                SongId = songID
+            };
+
+            // Add the association to the PlaylistSongs table
+            _context.PlaylistSongs.Add(playlistSong);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Song>> GetSongsByPlaylistId(int playlistID)
+        {
+            var playlist = GetPlaylistById(playlistID);
+            if (playlist == null)
+            {
+                throw new Exception("Playlist not found");
+            }
+            // Retrieve songs associated with the specified playlist
+            var songs = await _context.PlaylistSongs
+                .Where(ps => ps.PlaylistId == playlistID)
+                .Include(ps => ps.Song) // Include the Song entity
+                .Select(ps => ps.Song)  // Select the Song
+                .ToListAsync();
+
+            return songs;
         }
     }
 }
