@@ -13,6 +13,7 @@ namespace Tunify_Platform
             builder.Services.AddControllers();
 
             // Get the connection string settings 
+            //
             string ConnectionStringVar = builder.Configuration.GetConnectionString("DefaultConnection");
                 
             builder.Services.AddDbContext<TunifyDbContext>(optionsX => optionsX.UseSqlServer(ConnectionStringVar));
