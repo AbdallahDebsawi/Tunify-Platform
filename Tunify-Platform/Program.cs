@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Tunify_Platform.Data;
+using Tunify_Platform.Models;
 using Tunify_Platform.Repositories.Interfaces;
 using Tunify_Platform.Repositories.Services;
 
@@ -13,20 +15,23 @@ namespace Tunify_Platform
             builder.Services.AddControllers();
 
             // Get the connection string settings 
-            //
             string ConnectionStringVar = builder.Configuration.GetConnectionString("DefaultConnection");
                 
             builder.Services.AddDbContext<TunifyDbContext>(optionsX => optionsX.UseSqlServer(ConnectionStringVar));
+
+            // Add Identity Service
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<TunifyDbContext>();
 
             builder.Services.AddScoped<IPlayList, PlaylistService>();
             builder.Services.AddScoped<IUser, UserService>();
             builder.Services.AddScoped<ISong, SongService>();
             builder.Services.AddScoped<IArtist, ArtistService>();
-            
+            builder.Services.AddScoped<IAccount, IdentityAccountService>();
+
             //swagger configuration
             builder.Services.AddSwaggerGen
                 (
-
                 option =>
                 {
                     option.SwaggerDoc("tunifyApi", new Microsoft.OpenApi.Models.OpenApiInfo()
@@ -39,6 +44,9 @@ namespace Tunify_Platform
                 );
 
             var app = builder.Build();
+
+            app.UseAuthentication();
+            //app.UseAuthorization();
 
             // call swagger service
             app.UseSwagger
