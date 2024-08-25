@@ -68,7 +68,7 @@ The following relationships have been implemented within the Tunify Platform:
 
 ## New Feature: Swagger UI Integration
 
-In Lab 13, we enhanced the Tunify Platform by integrating Swagger UI. Swagger UI provides a visual interface for exploring and interacting with the API endpoints available in the Tunify Platform. This addition makes it easier for developers to understand, test, and debug the API.
+In Lab 14, we enhanced the Tunify Platform by integrating Swagger UI. Swagger UI provides a visual interface for exploring and interacting with the API endpoints available in the Tunify Platform. This addition makes it easier for developers to understand, test, and debug the API.
 
 ### Swagger UI Overview
 
@@ -97,5 +97,60 @@ In Lab 13, we enhanced the Tunify Platform by integrating Swagger UI. Swagger UI
 - **Ease of Use**: Swagger UI simplifies the process of testing and interacting with your API.
 - **Interactive Documentation**: Developers can quickly understand how the API works without needing to dive into the source code.
 - **Streamlined Testing**: Swagger UI allows for quick and efficient testing of API endpoints directly in the browser, reducing the need for external testing tools.
+
+## New Feature: Identity Setup
+
+In Lab 15, we integrated ASP.NET Core Identity into the Tunify Platform. This addition provides robust authentication and authorization features, allowing users to securely register, log in, and log out of the platform.
+
+### Identity Overview
+
+ASP.NET Core Identity is a membership system that adds login functionality to your application. It manages users, passwords, profile data, roles, claims, tokens, and more. In this lab, we implemented Identity to handle user authentication and authorization.
+
+### Using the Registration, Login, and Logout Features
+
+#### 1. **Registration**
+
+- **How to Register**:
+  - Navigate to the registration page by visiting:
+    ```
+    http://localhost:{port}/Identity/Account/Register
+    ```
+    Replace `{port}` with the actual port number your application is running on (e.g., `http://localhost:5000/Identity/Account/Register`).
+  - Fill in the required fields such as Email, Password, and Confirm Password.
+  - Click the "Register" button to create a new user account.
+  - Upon successful registration, you will be redirected to a confirmation page or logged in automatically, depending on your configuration.
+
+#### 2. **Login**
+
+- **How to Login**:
+  - Navigate to the login page by visiting:
+    ```
+    http://localhost:{port}/Identity/Account/Login
+    ```
+    Replace `{port}` with the actual port number your application is running on (e.g., `http://localhost:5000/Identity/Account/Login`).
+  - Enter your registered Email and Password.
+  - Optionally, you can check the "Remember me" box to stay logged in across sessions.
+  - Click the "Login" button to authenticate.
+  - Upon successful login, you will be redirected to the homepage or the last page you visited before logging in.
+
+#### 3. **Logout**
+
+- **How to Logout**:
+  - You can log out of the application by clicking the "Logout" button or link, usually found in the navigation bar.
+  - Logging out will end your session and redirect you to the homepage or login page.
+
+### Customization and Configuration
+
+- **Customizing Identity Pages**:
+  - The default Identity pages can be customized to fit the design and requirements of your Tunify Platform. You can scaffold the Identity pages to modify the HTML, CSS, and logic according to your needs.
+
+- **Roles and Authorization**:
+  - ASP.NET Core Identity allows you to define roles and manage user permissions. You can assign roles to users and restrict access to certain parts of the application based on their roles.
+
+### Benefits of Identity Integration
+
+- **Security**: ASP.NET Core Identity provides built-in features like password hashing, account lockout, and two-factor authentication, making your application more secure.
+- **Extensibility**: Identity is highly customizable, allowing you to extend the default user model with additional properties and implement custom authentication logic.
+- **User Management**: Identity simplifies the management of user accounts, roles, and permissions, enabling a more organized and secure platform.
 
 
