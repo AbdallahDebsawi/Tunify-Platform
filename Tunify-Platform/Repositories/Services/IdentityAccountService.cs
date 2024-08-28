@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Security.Claims;
 using Tunify_Platform.Models;
 using Tunify_Platform.Models.DTO;
 using Tunify_Platform.Repositories.Interfaces;
@@ -10,11 +11,12 @@ namespace Tunify_Platform.Repositories.Services
     {
         private UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private JwtTokenService jwtTokenService;
 
-
-        public IdentityAccountService(UserManager<ApplicationUser> Manager)
+        public IdentityAccountService(UserManager<ApplicationUser> Manager, JwtTokenService jwtTokenService)
         {
             _userManager = Manager;
+            this.jwtTokenService = jwtTokenService;
 
         }
         public async Task<UserDto> Login(string username, string password)
@@ -28,7 +30,9 @@ namespace Tunify_Platform.Repositories.Services
                 return new UserDto()
                 {
                     Id = user.Id,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Token = await jwtTokenService.GenerateToken(user, System.TimeSpan.FromMinutes(7))
+
                 };
             }
 
@@ -60,10 +64,15 @@ namespace Tunify_Platform.Repositories.Services
 
             if (result.Succeeded)
             {
+                // add roles to the new rigstred user
+                await _userManager.AddToRolesAsync(user, registerdUserDto.Roles);
                 return new UserDto()
                 {
                     Id = user.Id,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Roles = await _userManager.GetRolesAsync(user),
+                    Token = await jwtTokenService.GenerateToken(user, System.TimeSpan.FromMinutes(7)) 
+
                 };
             }
 
@@ -78,6 +87,19 @@ namespace Tunify_Platform.Repositories.Services
 
 
             return null;         
+        }
+
+       
+        public async Task<UserDto> userProfile(ClaimsPrincipal claimsPrincipal)
+        {
+            var user = await _userManager.GetUserAsync(claimsPrincipal);
+
+            return new UserDto()
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Token = await jwtTokenService.GenerateToken(user, TimeSpan.FromMinutes(30)) // just for development purposes
+            };
         }
     }
 }
