@@ -154,3 +154,15 @@ ASP.NET Core Identity is a membership system that adds login functionality to yo
 - **User Management**: Identity simplifies the management of user accounts, roles, and permissions, enabling a more organized and secure platform.
 
 
+## JWT-Based Authentication
+
+In lab 16, we implemented JWT-based authentication to enhance the security of our API. JWT (JSON Web Token) allows for stateless authentication by encoding user information into a token that is passed with each request.
+
+### Securing API Endpoints
+
+We secured our API endpoints by applying authentication and authorization attributes. Only users with a valid JWT token can access protected routes. Additionally, role-based authorization was implemented to control access based on user roles.
+
+### Managing Roles and Claims
+
+Roles and claims were used to further refine access control. Roles allow us to group permissions, while claims provide fine-grained control over what a user can do. This approach ensures that only authorized users have access to specific functionalities within the application.
+
